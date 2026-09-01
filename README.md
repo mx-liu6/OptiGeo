@@ -59,8 +59,8 @@
 ## Release Status
 
 - [x] Release paper and project page
-- [x] Release pretrained OptiGeo model
-- [x] Release inference, web demo, evaluation, and training code
+- [x] Release OptiGeo model weights
+- [x] Release inference, evaluation, and training code
 - [x] Release training and evaluation configuration files
 - [ ] Release OptiGeo dataset and rendering pipeline
 - [ ] Release edge computing variants and navigation system setup pipeline
@@ -83,15 +83,15 @@ pip install -e .
 
 If you install PyTorch manually, choose the build that matches your CUDA version from the official PyTorch instructions before running `pip install -r requirements.txt`.
 
-## 📦 Pretrained Model
+## 📦 Model Weights
 
-The OptiGeo pretrained model is available on Hugging Face:
+The released OptiGeo model weights are hosted on Hugging Face:
 
-| Model | Description | Parameters |
+| Weights | Description | Parameters |
 | --- | --- | --- |
 | [mxliu-hku/OptiGeo](https://huggingface.co/mxliu-hku/OptiGeo) | Efficient monocular geometry model for optically challenging scenes | 30M |
 
-The model is downloaded automatically from Hugging Face when `--pretrained` is omitted or set to `mxliu-hku/OptiGeo`.
+The weights are downloaded automatically when `--pretrained` is omitted or set to `mxliu-hku/OptiGeo`.
 
 ## 🚀 Quick Start
 
@@ -129,72 +129,9 @@ python optigeo/scripts/infer.py -i path/to/images -o output/high --resolution_le
 python optigeo/scripts/infer.py -i path/to/image.jpg -o output/fov --fov_x 70 --maps
 ```
 
-## 🖥️ Web Demo
-
-Launch the Gradio demo locally:
-
-```bash
-python optigeo/scripts/app.py --pretrained mxliu-hku/OptiGeo --fp16
-```
-
-To create a public Gradio sharing link:
-
-```bash
-python optigeo/scripts/app.py --pretrained mxliu-hku/OptiGeo --fp16 --share
-```
-
-## 🌐 Panorama Inference
-
-For equirectangular panorama images:
-
-```bash
-python optigeo/scripts/infer_panorama.py \
-  --input path/to/panorama_or_folder \
-  --output output/panorama \
-  --pretrained mxliu-hku/OptiGeo \
-  --maps \
-  --ply \
-  --glb
-```
-
 ## 📏 Evaluation
 
-We provide a unified evaluation pipeline that wraps a baseline model, evaluates it on configured benchmarks, and writes metrics to a JSON file.
-
-### Benchmarks
-
-Download the processed evaluation datasets from [Hugging Face Datasets](https://huggingface.co/datasets/Ruicheng/monocular-geometry-evaluation) and place them under `data/eval`:
-
-```bash
-mkdir -p data/eval
-huggingface-cli download Ruicheng/monocular-geometry-evaluation \
-  --repo-type dataset \
-  --local-dir data/eval \
-  --local-dir-use-symlinks False
-```
-
-Then unzip the benchmark files:
-
-```bash
-cd data/eval
-unzip '*.zip'
-cd ../..
-```
-
-### Run Evaluation
-
-```bash
-python optigeo/scripts/eval_baseline.py \
-  --baseline baselines/optigeo.py \
-  --config configs/eval/all_benchmarks.json \
-  --output eval_output/optigeo.json \
-  --pretrained mxliu-hku/OptiGeo \
-  --resolution_level 9
-```
-
-Useful evaluation options include `--oracle` for GT intrinsics, `--dump_pred` for prediction dumps, and `--dump_gt` for ground-truth dumps. To evaluate a customized method, implement the interface in [`optigeo/test/baseline.py`](optigeo/test/baseline.py); see [`baselines/optigeo.py`](baselines/optigeo.py) for an example.
-
-More details are available in [`docs/eval.md`](docs/eval.md).
+Evaluation instructions are available in [`docs/eval.md`](docs/eval.md). The evaluation pipeline wraps baseline models, runs configured benchmarks, and writes metrics to JSON.
 
 ## 🏋️ Training
 
@@ -257,13 +194,9 @@ bash scripts/train.sh
 
 More details are available in [`docs/train.md`](docs/train.md).
 
-## 🏗️ Architecture
+## 🏗️ Pipeline
 
 ![Pipeline](assets/pipeline.png)
-
-## 📊 Results
-
-![Empirical analysis](assets/empirical.png)
 
 ## Citation
 
@@ -304,7 +237,7 @@ Please also consider citing our monocular foundation geometry model, FoundationG
 
 ## 📄 License
 
-OptiGeo original code and documentation are released under the MIT License. Third-party components retain their original license terms; see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and the source-file headers for details.
+OptiGeo original code and documentation are released under the MIT License. Third-party components retain their original license terms; see the source-file headers for details.
 
 ## 🙏 Acknowledgments
 

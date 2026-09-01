@@ -1,7 +1,6 @@
 accelerate
 click
 ftfy
-gradio
 huggingface_hub
 matplotlib
 mlflow

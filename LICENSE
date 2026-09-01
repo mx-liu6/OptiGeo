@@ -4,7 +4,7 @@ Copyright (c) 2026 OptiGeo Authors.
 
 This license applies to the original OptiGeo code and documentation in this
 repository. Third-party components retain their original copyright notices and
-license terms; see THIRD_PARTY_NOTICES.md and source-file headers.
+license terms; see source-file headers.
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ license terms; see THIRD_PARTY_NOTICES.md and source-file headers.
     SOFTWARE
 
 Additional third-party license text follows for files whose source headers refer
-to the Apache License, Version 2.0. See THIRD_PARTY_NOTICES.md for details.
+to the Apache License, Version 2.0.
 
 
                                  Apache License
