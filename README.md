@@ -103,6 +103,20 @@ If you find our work useful, please consider citing:
 }
 ```
 
+Please also consider citing our monocular foundation geometry model, FoundationGeo:
+
+```bibtex
+@misc{liu2026foundationgeo,
+      title={FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry}, 
+      author={Muxin Liu and Xiaoyang Lyu and Tianhe Ren and Peng Dai and Xiaoshan Wu and Zhiyue Zhang and Jiaqi Zhang and Jiehong Lin and Shaoshuai Shi and Xiaojuan Qi},
+      year={2026},
+      eprint={2607.11588},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2607.11588}, 
+}
+```
+
 ## Links
 
 - [Paper](https://arxiv.org/abs/2608.29881)
@@ -116,4 +130,4 @@ This project is licensed under the MIT License.
 
 ## Acknowledgments
 
-We thank the open-source monocular geometry and embodied perception communities.
+We thank the MoGe series of works and the DINO series of works.
