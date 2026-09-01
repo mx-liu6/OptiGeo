@@ -17,6 +17,7 @@
 <p align="center">
   <sup>1</sup>The University of Hong Kong &nbsp;&nbsp;
   <sup>2</sup>Voyager Research, Didi Chuxing &nbsp;&nbsp;
+  <br> 
   <sup>3</sup>Southern University of Science and Technology
   <br>
   <sup>*</sup>Equal Contribution &nbsp;
@@ -49,14 +50,12 @@ OptiGeo is a lightweight monocular geometry framework for embodied perception in
 The framework rehabilitates biased real-depth supervision with a clean-geometry teacher and residual-trimmed alignment, then uses a compact transparency-targeted rendering set as clean local optical geometry supervision. With only 30M parameters, OptiGeo is designed for efficient edge deployment while remaining strong on optically challenging scenes and general zero-shot geometry benchmarks.
 
 <p align="center">
-  <video src="assets/Optigeo.mp4" controls muted loop playsinline width="100%"></video>
+  <a href="assets/Optigeo.mp4"><b>Watch the OptiGeo demo video</b></a>
 </p>
 
 ## TODO
 
-- [x] Release paper
-- [x] Release project page
-- [x] Release pretrained model
+- [x] Release paper, project page, pretrained model
 - [ ] Release inference code
 - [ ] Release training and evaluation code
 - [ ] Release OptiGeo dataset and rendering pipeline
