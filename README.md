@@ -45,12 +45,24 @@
 
 ## Overview
 
-OptiGeo is a lightweight monocular geometry framework for embodied perception in transparent, reflective, and specular scenes. Instead of treating optical failures as a separate depth-estimation task, OptiGeo revisits them as localized supervision-bias failures inside base-model training.
+OptiGeo redefines transparent and reflective depth estimation as localized bias correction within monocular geometry training, rather than a separate scene-specific depth task.
 
-The framework rehabilitates biased real-depth supervision with a clean-geometry teacher and residual-trimmed alignment, then uses a compact transparency-targeted rendering set as clean local optical geometry supervision. With only 30M parameters, OptiGeo is designed for efficient edge deployment while remaining strong on optically challenging scenes and general zero-shot geometry benchmarks.
+It rehabilitates biased real-depth supervision with a clean-geometry teacher and residual-trimmed alignment, then uses compact transparency-targeted rendering to learn clean optical geometry. The resulting 30M model is built for accurate, efficient embodied perception in optically challenging scenes.
 
 <p align="center">
-  <a href="assets/Optigeo.mp4"><b>Watch the OptiGeo demo video</b></a>
+  <b>OptiGeo Pipeline</b>
+</p>
+
+<p align="center">
+  <img src="assets/pipeline.png" alt="OptiGeo pipeline">
+</p>
+
+<p align="center">
+  <b>Demo Video</b>
+</p>
+
+<p align="center">
+  <img src="assets/optigeo_demo.gif" alt="OptiGeo demo">
 </p>
 
 ## TODO
