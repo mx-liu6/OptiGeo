@@ -41,9 +41,16 @@
 
 <p align="center">
   OptiGeo redefines transparent and reflective depth estimation as localized bias correction within monocular geometry training.
-  It rehabilitates biased real-depth supervision with a clean-geometry teacher and residual-trimmed alignment.
-  The resulting 30M model is designed for accurate and efficient embodied perception in optically challenging scenes.
 </p>
+
+<div align="center">
+
+|  |  |
+| --- | --- |
+| 🧭 | Rehabilitates biased real-depth supervision with a clean-geometry teacher and residual-trimmed alignment. |
+| ⚡ | Delivers a 30M model for accurate and efficient embodied perception in optically challenging scenes. |
+
+</div>
 
 <p align="center">
   <img src="assets/optigeo_demo.gif" alt="OptiGeo demo">
@@ -53,13 +60,9 @@
   <img src="assets/teaser.png" alt="OptiGeo teaser">
 </p>
 
-## TODO
+## Release Status
 
-- [x] Release paper, project page, pretrained model
-- [ ] Release inference code
-- [ ] Release training and evaluation code
-- [ ] Release OptiGeo dataset and rendering pipeline
-- [ ] Release edge computing variants and navigation system setup pipeline
+The paper, project page, and pretrained model are available now. Inference code, training and evaluation code, the OptiGeo dataset and rendering pipeline, edge computing variants, and the navigation system setup pipeline will be released in upcoming updates.
 
 ## Installation
 
