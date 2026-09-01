@@ -55,9 +55,7 @@
 
 ## Overview
 
-OptiGeo redefines transparent and reflective depth estimation as localized bias correction within monocular geometry training, rather than a separate scene-specific depth task.
-
-It rehabilitates biased real-depth supervision with a clean-geometry teacher and residual-trimmed alignment, then uses compact transparency-targeted rendering to learn clean optical geometry. The resulting 30M model is built for accurate, efficient embodied perception in optically challenging scenes.
+OptiGeo rehabilitates biased real-depth supervision with a clean-geometry teacher and residual-trimmed alignment, then uses compact transparency-targeted rendering to learn clean optical geometry. The resulting 30M model is built for accurate, efficient embodied perception in optically challenging scenes.
 
 <p align="center">
   <img src="assets/pipeline.png" alt="OptiGeo pipeline">
