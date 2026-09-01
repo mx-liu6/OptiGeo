@@ -53,14 +53,6 @@
   <img src="assets/teaser.png" alt="OptiGeo teaser">
 </p>
 
-## Overview
-
-OptiGeo rehabilitates biased real-depth supervision with a clean-geometry teacher and residual-trimmed alignment, then uses compact transparency-targeted rendering to learn clean optical geometry. The resulting 30M model is built for accurate, efficient embodied perception in optically challenging scenes.
-
-<p align="center">
-  <img src="assets/pipeline.png" alt="OptiGeo pipeline">
-</p>
-
 ## TODO
 
 - [x] Release paper, project page, pretrained model
