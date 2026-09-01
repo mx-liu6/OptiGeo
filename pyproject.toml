@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optigeo"
+version = "0.1.0"
+description = "OptiGeo: monocular geometry estimation training and inference code"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = [
+    "accelerate",
+    "click",
+    "ftfy",
+    "gradio",
+    "huggingface_hub",
+    "matplotlib",
+    "mlflow",
+    "numpy",
+    "omegaconf",
+    "opencv-python",
+    "openpyxl",
+    "pandas",
+    "pillow",
+    "requests",
+    "regex",
+    "scikit-learn",
+    "scipy",
+    "submitit",
+    "sympy",
+    "torch>=2.0.0",
+    "torchmetrics",
+    "torchvision",
+    "tqdm",
+    "trimesh",
+    "utils3d @ git+https://github.com/EasternJournalist/utils3d.git@c5daf6f6c244d251f252102d09e9b7bcef791a38",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["optigeo*"]
+
+[project.scripts]
+optigeo = "optigeo.scripts.cli:main"

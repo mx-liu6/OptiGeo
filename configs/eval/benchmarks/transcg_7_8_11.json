@@ -1,0 +1,9 @@
+{
+    "TransCG_7_8_11": {
+        "path": "data/eval/TransCG_first4_test",
+        "width": 1280,
+        "height": 720,
+        "split": ".index.txt",
+        "depth_unit": 1
+    }
+}

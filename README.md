@@ -58,9 +58,14 @@
 
 ## Release Status
 
-The paper, project page, and pretrained model are available now. Inference code, training and evaluation code, the OptiGeo dataset and rendering pipeline, edge computing variants, and the navigation system setup pipeline will be released in upcoming updates.
+- [x] Release paper and project page
+- [x] Release pretrained OptiGeo model
+- [x] Release inference, web demo, evaluation, and training code
+- [x] Release training and evaluation configuration files
+- [ ] Release OptiGeo dataset and rendering pipeline
+- [ ] Release edge computing variants and navigation system setup pipeline
 
-## Installation
+## ⚙️ Installation
 
 ```bash
 git clone https://github.com/mx-liu6/OptiGeo.git
@@ -70,7 +75,15 @@ conda activate optigeo
 pip install -r requirements.txt
 ```
 
-## Pretrained Model
+For editable local development, install the package as well:
+
+```bash
+pip install -e .
+```
+
+If you install PyTorch manually, choose the build that matches your CUDA version from the official PyTorch instructions before running `pip install -r requirements.txt`.
+
+## 📦 Pretrained Model
 
 The OptiGeo pretrained model is available on Hugging Face:
 
@@ -78,13 +91,179 @@ The OptiGeo pretrained model is available on Hugging Face:
 | --- | --- | --- |
 | [mxliu-hku/OptiGeo](https://huggingface.co/mxliu-hku/OptiGeo) | Efficient monocular geometry model for optically challenging scenes | 30M |
 
-## Quick Start
+The model is downloaded automatically from Hugging Face when `--pretrained` is omitted or set to `mxliu-hku/OptiGeo`.
 
-The inference code will be released in this repository. After release, the model can be downloaded from Hugging Face and used for monocular geometry prediction on transparent, reflective, and general scenes.
+## 🚀 Quick Start
 
 ```bash
-# Coming soon
+# Run inference on one image or a folder of images
+python optigeo/scripts/infer.py \
+  --input path/to/image_or_folder \
+  --output output/optigeo \
+  --pretrained mxliu-hku/OptiGeo \
+  --device cuda \
+  --maps \
+  --ply \
+  --glb
 ```
+
+Outputs are saved under `output/optigeo` and can include:
+
+- `image.jpg`: resized input image used by inference
+- `depth.exr` and `depth_vis.png`: metric depth and visualization
+- `points.exr`: metric point map
+- `mask.png`: valid prediction mask
+- `fov.json`: estimated camera field of view
+- `pointcloud.ply` and `mesh.glb`: 3D exports
+
+Useful options:
+
+```bash
+# Faster inference with half precision
+python optigeo/scripts/infer.py -i path/to/images -o output/fast --fp16 --maps
+
+# Control inference resolution; higher is sharper but slower
+python optigeo/scripts/infer.py -i path/to/images -o output/high --resolution_level 9 --maps
+
+# Use a known horizontal camera field of view in degrees
+python optigeo/scripts/infer.py -i path/to/image.jpg -o output/fov --fov_x 70 --maps
+```
+
+## 🖥️ Web Demo
+
+Launch the Gradio demo locally:
+
+```bash
+python optigeo/scripts/app.py --pretrained mxliu-hku/OptiGeo --fp16
+```
+
+To create a public Gradio sharing link:
+
+```bash
+python optigeo/scripts/app.py --pretrained mxliu-hku/OptiGeo --fp16 --share
+```
+
+## 🌐 Panorama Inference
+
+For equirectangular panorama images:
+
+```bash
+python optigeo/scripts/infer_panorama.py \
+  --input path/to/panorama_or_folder \
+  --output output/panorama \
+  --pretrained mxliu-hku/OptiGeo \
+  --maps \
+  --ply \
+  --glb
+```
+
+## 📏 Evaluation
+
+We provide a unified evaluation pipeline that wraps a baseline model, evaluates it on configured benchmarks, and writes metrics to a JSON file.
+
+### Benchmarks
+
+Download the processed evaluation datasets from [Hugging Face Datasets](https://huggingface.co/datasets/Ruicheng/monocular-geometry-evaluation) and place them under `data/eval`:
+
+```bash
+mkdir -p data/eval
+huggingface-cli download Ruicheng/monocular-geometry-evaluation \
+  --repo-type dataset \
+  --local-dir data/eval \
+  --local-dir-use-symlinks False
+```
+
+Then unzip the benchmark files:
+
+```bash
+cd data/eval
+unzip '*.zip'
+cd ../..
+```
+
+### Run Evaluation
+
+```bash
+python optigeo/scripts/eval_baseline.py \
+  --baseline baselines/optigeo.py \
+  --config configs/eval/all_benchmarks.json \
+  --output eval_output/optigeo.json \
+  --pretrained mxliu-hku/OptiGeo \
+  --resolution_level 9
+```
+
+Useful evaluation options include `--oracle` for GT intrinsics, `--dump_pred` for prediction dumps, and `--dump_gt` for ground-truth dumps. To evaluate a customized method, implement the interface in [`optigeo/test/baseline.py`](optigeo/test/baseline.py); see [`baselines/optigeo.py`](baselines/optigeo.py) for an example.
+
+More details are available in [`docs/eval.md`](docs/eval.md).
+
+## 🏋️ Training
+
+We provide training code and configuration files:
+
+- OptiGeo-S: [`configs/train/OptiGeo.json`](configs/train/OptiGeo.json)
+- OptiGeo-H+: [`configs/train/OptiGeo_Hplus_w_refine.json`](configs/train/OptiGeo_Hplus_w_refine.json)
+- OptiGeo-L: [`configs/train/OptiGeo_Large_w_refine.json`](configs/train/OptiGeo_Large_w_refine.json)
+- Multi-GPU launch script: [`scripts/train.sh`](scripts/train.sh)
+
+### Data Preparation
+
+Training datasets are expected under `data/train`. Each dataset should contain an index file and per-sample folders:
+
+```text
+data/train/somedataset
+├── index.txt
+├── sample_000001
+│   ├── image.jpg
+│   ├── depth.png
+│   └── meta.json
+└── ...
+```
+
+`index.txt` stores one sample folder per line. `meta.json` should include normalized camera intrinsics:
+
+```json
+{
+  "intrinsics": [[fx, 0.0, cx], [0.0, fy, cy], [0.0, 0.0, 1.0]]
+}
+```
+
+Depth maps can be read and written with the helpers in [`optigeo/utils/io.py`](optigeo/utils/io.py). You can inspect prepared samples with:
+
+```bash
+python optigeo/scripts/vis_data.py data/train/somedataset/sample_000001 --ply
+```
+
+### Run Training
+
+For a single-machine launch, call `accelerate` directly and adjust `--num_processes`, batch size, workspace, and checkpoint path as needed:
+
+```bash
+accelerate launch --multi_gpu --num_processes 8 \
+  optigeo/scripts/train.py \
+  --config configs/train/OptiGeo.json \
+  --workspace workspace/OptiGeo \
+  --gradient_accumulation_steps 1 \
+  --batch_size_forward 16 \
+  --checkpoint latest \
+  --enable_gradient_checkpointing False \
+  --enable_mlflow True
+```
+
+The provided launch script is designed for multi-GPU or multi-node training environments. It reads distributed settings from environment variables such as `RESOURCE_NUM_GPU`, `DISTRIBUTED_NODE_COUNT`, `DISTRIBUTED_NODE_RANK`, and `DISTRIBUTED_MASTER_HOSTS`:
+
+```bash
+bash scripts/train.sh
+```
+
+More details are available in [`docs/train.md`](docs/train.md).
+
+## 🏗️ Architecture
+
+![Pipeline](assets/pipeline.png)
+
+## 📊 Results
+
+![Empirical analysis](assets/empirical.png)
 
 ## Citation
 
@@ -123,10 +302,10 @@ Please also consider citing our monocular foundation geometry model, FoundationG
 - [Code](https://github.com/mx-liu6/OptiGeo)
 - [Hugging Face](https://huggingface.co/mxliu-hku/OptiGeo)
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License.
+OptiGeo original code and documentation are released under the MIT License. Third-party components retain their original license terms; see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and the source-file headers for details.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-We thank the MoGe series of works and the DINO series of works.
+We thank the MoGe series of works and DINOv3.

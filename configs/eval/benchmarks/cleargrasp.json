@@ -1,0 +1,9 @@
+{
+    "ClearGrasp": {
+        "path": "data/eval/cleargrasp/real",
+        "width": 848,
+        "height": 480,
+        "split": "index.txt",
+        "depth_unit": 1
+    }
+}
